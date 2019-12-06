@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lgx.mapping.AreaMapper">
+
+
+
+    <resultMap id="test" type="com.lgx.vo.Area">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="titleAll" column="titleAll"/>
+        <result property="parentId" column="parentId"/>
+
+        <collection  property="areas" ofType="com.lgx.vo.Area" javaType="java.util.List" >
+
+            <result property="id" column="P_id"/>
+            <result property="title" column="P_title"/>
+            <result property="titleAll" column="P_titleAll"/>
+            <result property="parentId" column="P_parentId"/>
+        </collection >
+
+    </resultMap>
+
+    <resultMap id="test2" type="com.lgx.form.AreaForm">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="titleAll" column="titleAll"/>
+
+        <result property="com.lgx.form.AreaForm" column="parent"/>
+        <association property="parent" column="id" javaType="com.lgx.form.AreaForm" select="findB"></association>
+    </resultMap>
+
+    <resultMap id="test3" type="com.lgx.vo.Area">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="titleAll" column="titleAll"/>
+    </resultMap>
+
+
+    <select id="findById" resultMap="test" parameterType="java.lang.Integer">
+        SELECT ca.*,car.id P_id,car.title P_title,car.titleAll P_titleAll,car.parentId P_parentId
+        FROM comp_area ca , comp_area car
+        where  car.parentId = #{id}
+        and ca.id = #{id}
+    </select>
+
+    <select id="findByIdTest" resultMap="test2" parameterType="java.lang.Integer">
+        select ca.*
+        from comp_area ca
+        where ca.id=#{id}
+    </select>
+    <select id="findByFormId" resultMap="test2" parameterType="java.lang.Integer">
+        select ca.*
+        from comp_area ca
+        where ca.id=#{id}
+    </select>
+    <select id="findB" resultMap="test3" parameterType="java.lang.Integer">
+        select ca.*
+        from comp_area ca
+        where ca.parentId=#{id}
+    </select>
+
+
+
+
+
+
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"  >
+      INSERT INTO comp_area(title,titleAll,parentId) VALUE (#{title},#{titleAll},#{parentId})
+    </insert>
+
+    <update id="update">
+      UPDATE comp_area SET title=#{title},titleAll=#{titleAll},parentId=#{parentId} where id=#{id}
+    </update>
+
+    <delete id="delete"  parameterType="java.lang.Integer">
+      DELETE  FROM comp_area where id=#{id}
+    </delete>
+
+    <resultMap id="test9" type="com.lgx.vo.Area">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="titleAll" column="titleAll"/>
+        <result property="parentId" column="parentId"/>
+        <association  property="area" column="parentId" javaType="com.lgx.vo.Area" select="findTest5" >
+        </association >
+    </resultMap>
+
+
+   <!-- <select id="findTest5" resultMap="test5" parameterType="java.lang.Integer">
+       SELECT ca.*,car.id P_id,car.title P_title,car.titleAll P_titleAll,car.parentId P_parentId
+       FROM comp_area ca , comp_area car
+       where  car.parentId = #{id}
+       and ca.id = #{id}
+    </select>
+    <select id="findTest5" resultMap="test5" parameterType="java.lang.Integer">
+        select *
+        from comp_area
+        where id=#{id}
+    </select>
+    -->
+
+    <resultMap id="test5" type="com.lgx.vo.Area">
+        <id property="id" column="id"/>
+        <result property="parentId" column="parentId"/>
+        <association  property="area" column="parentId" javaType="com.lgx.vo.Area" select="findParent" >
+        </association >
+        <collection  property="areas"   column="id" ofType="com.lgx.vo.Area"  javaType="java.util.List" select="findChildren"  >
+        </collection >
+    </resultMap>
+
+
+    <select id="findParent" resultMap="test5" parameterType="java.lang.Integer">
+        select *
+        from comp_area
+        where id=#{parentId}
+    </select>
+    <select id="findChildren" resultMap="test5" parameterType="java.lang.Integer">
+        select *
+        from comp_area
+        where parentId=#{id}
+    </select>
+
+    <select id="findAllById" resultMap="test5"  parameterType="java.lang.Integer">
+        select *
+        from comp_area
+        WHERE id=#{id}
+    </select>
+
+
+    <select id="findByAreaForm" resultMap="test5" parameterType="com.lgx.form.AreaForm">
+        select *
+        from comp_area
+        where id=#{areaForm.id}
+    </select>
+
+    <select id="findByLike" resultMap="test3" parameterType="java.lang.String">
+        select *
+        from comp_area
+        <where>
+            <if test="name != '' and name != null">
+                AND titleAll
+                like '%${name}%'
+            </if>
+            <if test="name != '' and name != null">
+                AND titleAll = #{name}
+            </if>
+        </where>
+    </select>
+
+</mapper>
