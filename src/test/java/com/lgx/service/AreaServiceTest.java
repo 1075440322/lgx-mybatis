@@ -4,6 +4,7 @@ package com.lgx.service;
 import ch.qos.logback.core.net.SyslogOutputStream;
 import com.lgx.form.AreaForm;
 import com.lgx.vo.Area;
+import com.mysql.jdbc.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -113,6 +115,14 @@ public class AreaServiceTest {
     public void findByLike(){
         List<Area> areas = areaService.findByLike("山东");
         log.info(""+areas);
+    }
+
+    @Test
+    public void associationDemo(){
+        Area area = areaService.associationDemo(4);
+        //log.info("area:{}",area);
+
+        log.info("parent:{}",area.getArea());
     }
 
 

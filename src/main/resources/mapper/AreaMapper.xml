@@ -70,6 +70,7 @@
       INSERT INTO comp_area(title,titleAll,parentId) VALUE (#{title},#{titleAll},#{parentId})
     </insert>
 
+
     <update id="update">
       UPDATE comp_area SET title=#{title},titleAll=#{titleAll},parentId=#{parentId} where id=#{id}
     </update>
@@ -104,7 +105,7 @@
     <resultMap id="test5" type="com.lgx.vo.Area">
         <id property="id" column="id"/>
         <result property="parentId" column="parentId"/>
-        <association  property="area" column="parentId" javaType="com.lgx.vo.Area" select="findParent" >
+        <association  property="area" column="parentId" javaType="com.lgx.vo.Area" select="findParent"  fetchType="lazy">
         </association >
         <collection  property="areas"   column="id" ofType="com.lgx.vo.Area"  javaType="java.util.List" select="findChildren"  >
         </collection >
@@ -147,6 +148,24 @@
                 AND titleAll = #{name}
             </if>
         </where>
+    </select>
+
+    <resultMap id="association" type="com.lgx.vo.Area">
+        <id property="id" column="id"/>
+        <result property="parentId" column="parentId"/>
+        <association  property="area" column="parentId" javaType="com.lgx.vo.Area" select="associationParent"  fetchType="lazy">
+        </association >
+    </resultMap>
+    <select id="associationDemo" resultType="com.lgx.vo.Area" resultMap="association">
+        select *
+        from comp_area
+        WHERE id=#{id}
+    </select>
+
+    <select id="associationParent" resultMap="association" parameterType="java.lang.Integer">
+        select *
+        from comp_area
+        where id=#{parentId}
     </select>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.lgx.mapping;
 
+import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
 import com.lgx.form.AreaForm;
 import com.lgx.vo.Area;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,6 +30,6 @@ public interface AreaMapper {
 
     /** 根据对象查找 */
     Area findByAreaForm(@Param("areaForm") AreaForm areaForm);
-
     List<Area> findByLike(@Param("name") String name);
+    Area associationDemo(Integer id);
 }

@@ -71,4 +71,6 @@ public class AreaService {
     public List<Area> findByLike(String name) {
         return areaMapper.findByLike(name);
     }
+
+    public Area associationDemo (Integer id) { return areaMapper.associationDemo(id);}
 }
