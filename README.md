@@ -3,4 +3,5 @@
 # git hotfix
 # iss53update
 # Git has a mutable index called stage
+# mastera git stash
 
