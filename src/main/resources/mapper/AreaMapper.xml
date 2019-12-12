@@ -136,7 +136,7 @@
         where id=#{areaForm.id}
     </select>
 
-    <select id="findByLike" resultMap="test3" parameterType="java.lang.String">
+    <select id="findByLike" resultMap="test3" parameterType="java.lang.String"><!-- where 会默认去掉第一个and-->
         select *
         from comp_area
         <where>
