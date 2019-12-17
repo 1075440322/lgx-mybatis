@@ -9,9 +9,5 @@
 # dev update
 # new dev
 # withdraw????
-<<<<<<< Updated upstream
 
-=======
-# 666667777777
->>>>>>> Stashed changes
 
