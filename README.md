@@ -9,11 +9,8 @@
 # dev update
 # new dev
 # withdraw????
-<<<<<<< HEAD
 # 666667777777
-
-=======
 # 66666
 # 99999
->>>>>>> bb04dd5cf77af0c5aeee72a0155ebcf28c2c1d23
+
 
