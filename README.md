@@ -15,4 +15,4 @@
 # 101010??????
 # 15166055772git1111
 # git tracks changes of files 55
-# no fast merge fix bug
+# no fast merges fix bug
